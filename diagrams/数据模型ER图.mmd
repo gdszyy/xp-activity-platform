@@ -1,0 +1,64 @@
+erDiagram
+    ACTIVITY_TEMPLATE ||--o{ ACTIVITY_INSTANCE : "被引用"
+    ACTIVITY_INSTANCE ||--o{ USER_ACTIVITY_CONTEXT : "产生用户数据"
+    ACTIVITY_INSTANCE ||--o{ REWARD_LEDGER : "记录发奖"
+    ACTIVITY_INSTANCE ||--o{ RANKING_SNAPSHOT : "生成排名快照"
+    
+    ACTIVITY_TEMPLATE {
+        bigint id PK
+        varchar name
+        text description
+        json logic_graph_json
+        json variables_schema
+        json user_context_schema
+        varchar version
+        varchar status
+        varchar created_by
+        datetime created_at
+        datetime updated_at
+    }
+    
+    ACTIVITY_INSTANCE {
+        bigint id PK
+        varchar name
+        bigint template_id FK
+        varchar template_version
+        json variable_values
+        json common_meta
+        varchar status
+        varchar created_by
+        datetime created_at
+        datetime updated_at
+    }
+    
+    USER_ACTIVITY_CONTEXT {
+        bigint id PK
+        bigint activity_id UK
+        varchar user_id UK
+        json context_data
+        int version
+        datetime created_at
+        datetime updated_at
+    }
+    
+    REWARD_LEDGER {
+        bigint id PK
+        varchar transaction_id UK
+        bigint activity_id IDX
+        varchar user_id IDX
+        varchar reward_type
+        decimal reward_amount
+        varchar reward_item_id
+        varchar status
+        varchar trigger_event_id
+        datetime created_at
+    }
+    
+    RANKING_SNAPSHOT {
+        bigint id PK
+        bigint activity_id UK
+        varchar period UK
+        json ranking_data
+        datetime snapshot_time
+        varchar status
+    }

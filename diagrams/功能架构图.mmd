@@ -1,0 +1,48 @@
+graph TB
+    A[配置后台 Admin Portal]
+    B[运行时服务 Runtime Services]
+    C[数据与可观测性 Data & Observability]
+    
+    A1[模板设计中心]
+    A2[活动配置向导]
+    A3[通用管理功能]
+    
+    B1[入口层]
+    B2[任务层]
+    B3[奖励层]
+    B4[游戏化引擎]
+    
+    C1[核心数据库]
+    C2[埋点与分析]
+    C3[监控告警]
+    
+    A --> A1
+    A --> A2
+    A --> A3
+    
+    B --> B1
+    B --> B2
+    B --> B3
+    B --> B4
+    
+    C --> C1
+    C --> C2
+    C --> C3
+    
+    A1 -.模板发布.-> A2
+    A2 -.活动配置.-> B2
+    B2 -.任务完成.-> B3
+    B --> C1
+    B --> C2
+    B --> C3
+    
+    style A fill:#E8F4F8,stroke:#0077B6,stroke-width:3px
+    style B fill:#FEE2E2,stroke:#DC2626,stroke-width:3px
+    style C fill:#FEF3C7,stroke:#F59E0B,stroke-width:3px
+    style A1 fill:#B8E0D2,stroke:#2C7A7B,stroke-width:2px
+    style A2 fill:#FFE5B4,stroke:#D97706,stroke-width:2px
+    style A3 fill:#E5E7EB,stroke:#6B7280,stroke-width:2px
+    style B1 fill:#FED7AA,stroke:#EA580C,stroke-width:2px
+    style B2 fill:#DBEAFE,stroke:#2563EB,stroke-width:2px
+    style B3 fill:#D1FAE5,stroke:#059669,stroke-width:2px
+    style B4 fill:#F3E8FF,stroke:#9333EA,stroke-width:2px

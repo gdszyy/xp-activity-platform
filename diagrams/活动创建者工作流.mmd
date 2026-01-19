@@ -1,0 +1,50 @@
+flowchart TD
+    Start([一线运营登录]) --> ActivityList[活动列表页]
+    
+    ActivityList --> |创建活动| StartWizard[启动活动配置向导]
+    ActivityList --> |编辑活动| EditActivity[编辑现有活动]
+    ActivityList --> |复制活动| CopyActivity[复制活动配置]
+    
+    StartWizard --> Step1[步骤1: 选择模板]
+    EditActivity --> Step2
+    CopyActivity --> Step2
+    
+    Step1 --> |从模板库选择| Step2[步骤2: 配置基础信息]
+    
+    Step2 --> FillBasic[填写活动名称/时间/描述]
+    FillBasic --> SelectAudience[选择目标人群]
+    SelectAudience --> Step3[步骤3: 配置业务变量]
+    
+    Step3 --> DynamicForm[系统动态生成表单]
+    DynamicForm --> FillVars[填写业务参数]
+    FillVars --> Step4[步骤4: 预览与发布]
+    
+    Step4 --> Preview{需要预览?}
+    Preview --> |是| SandboxPreview[沙盒预览]
+    Preview --> |否| Validate
+    
+    SandboxPreview --> Validate[配置校验]
+    
+    Validate --> ValidationPass{校验通过?}
+    ValidationPass --> |否| ShowError[显示错误信息]
+    ShowError --> Step3
+    
+    ValidationPass --> |是| PublishOption{发布选项}
+    PublishOption --> |立即上线| PublishNow[立即发布]
+    PublishOption --> |灰度发布| GrayPublish[灰度发布]
+    PublishOption --> |保存草稿| SaveDraft[保存为草稿]
+    
+    PublishNow --> ActivityList
+    GrayPublish --> ActivityList
+    SaveDraft --> ActivityList
+    
+    ActivityList --> End([完成])
+    
+    style Start fill:#4CAF50,stroke:#2E7D32,stroke-width:3px,color:#fff
+    style End fill:#4CAF50,stroke:#2E7D32,stroke-width:3px,color:#fff
+    style Step1 fill:#2196F3,stroke:#1565C0,stroke-width:2px,color:#fff
+    style Step2 fill:#2196F3,stroke:#1565C0,stroke-width:2px,color:#fff
+    style Step3 fill:#2196F3,stroke:#1565C0,stroke-width:2px,color:#fff
+    style Step4 fill:#2196F3,stroke:#1565C0,stroke-width:2px,color:#fff
+    style PublishNow fill:#FF9800,stroke:#E65100,stroke-width:2px,color:#fff
+    style ShowError fill:#F44336,stroke:#C62828,stroke-width:2px,color:#fff
