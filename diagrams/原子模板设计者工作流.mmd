@@ -1,0 +1,51 @@
+flowchart TD
+    Start([高阶运营/研发登录]) --> MainNav[主导航]
+    
+    MainNav --> ChooseLib{选择模板库}
+    
+    ChooseLib --> |任务模板库| TaskLib[任务模板库]
+    ChooseLib --> |奖励模板库| RewardLib[奖励模板库]
+    ChooseLib --> |人群模板库| AudienceLib[人群模板库]
+    
+    TaskLib --> CreateTask[创建任务模板]
+    CreateTask --> SelectTaskType[选择任务类型]
+    SelectTaskType --> ConfigTaskLogic[配置触发和完成条件]
+    ConfigTaskLogic --> DefineTaskVars[定义暴露变量]
+    DefineTaskVars --> SaveTask[保存任务模板]
+    SaveTask --> TaskLib
+    
+    RewardLib --> CreateReward[创建奖励模板]
+    CreateReward --> SelectRewardType[选择奖励类型]
+    SelectRewardType --> ConfigRewardRule[配置发放规则]
+    ConfigRewardRule --> DefineRewardVars[定义暴露变量]
+    DefineRewardVars --> SaveReward[保存奖励模板]
+    SaveReward --> RewardLib
+    
+    AudienceLib --> CreateAudience[创建人群模板]
+    CreateAudience --> ConfigTags[配置用户标签组合]
+    ConfigTags --> SetFilter[设置筛选逻辑]
+    SetFilter --> EstimateCount[预估人群数量]
+    EstimateCount --> SaveAudience[保存人群模板]
+    SaveAudience --> AudienceLib
+    
+    TaskLib --> |可选| GoToActivityTemplate
+    RewardLib --> |可选| GoToActivityTemplate
+    AudienceLib --> |可选| GoToActivityTemplate
+    
+    GoToActivityTemplate[进入活动模板设计中心]
+    GoToActivityTemplate --> Canvas[LogicFlow画布]
+    
+    Canvas --> DragAtomicNode[拖拽原子模板节点]
+    DragAtomicNode --> ConnectNodes[连接节点形成框架]
+    ConnectNodes --> ExposeGlobalVars[定义全局暴露变量]
+    ExposeGlobalVars --> SaveActivityTemplate[保存活动模板]
+    
+    SaveActivityTemplate --> End([完成])
+    
+    style Start fill:#4CAF50,stroke:#2E7D32,stroke-width:3px,color:#fff
+    style End fill:#4CAF50,stroke:#2E7D32,stroke-width:3px,color:#fff
+    style TaskLib fill:#B8E0D2,stroke:#2C7A7B,stroke-width:2px
+    style RewardLib fill:#FED7AA,stroke:#EA580C,stroke-width:2px
+    style AudienceLib fill:#DBEAFE,stroke:#2563EB,stroke-width:2px
+    style Canvas fill:#FF9800,stroke:#E65100,stroke-width:2px,color:#fff
+    style SaveActivityTemplate fill:#9C27B0,stroke:#6A1B9A,stroke-width:2px,color:#fff

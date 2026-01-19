@@ -1,34 +1,61 @@
 erDiagram
-    ACTIVITY_TEMPLATE ||--o{ ACTIVITY_INSTANCE : "被引用"
+    TASK_TEMPLATE ||--o{ ACTIVITY_TEMPLATE : "被组合"
+    REWARD_TEMPLATE ||--o{ ACTIVITY_TEMPLATE : "被组合"
+    AUDIENCE_TEMPLATE ||--o{ ACTIVITY_TEMPLATE : "被引用"
+    
+    ACTIVITY_TEMPLATE ||--o{ ACTIVITY_INSTANCE : "作为基础"
+    
+    TASK_TEMPLATE ||--o{ ACTIVITY_INSTANCE : "可增删"
+    REWARD_TEMPLATE ||--o{ ACTIVITY_INSTANCE : "可增删"
+    AUDIENCE_TEMPLATE ||--o{ ACTIVITY_INSTANCE : "可调整"
+    
     ACTIVITY_INSTANCE ||--o{ USER_ACTIVITY_CONTEXT : "产生用户数据"
     ACTIVITY_INSTANCE ||--o{ REWARD_LEDGER : "记录发奖"
     ACTIVITY_INSTANCE ||--o{ RANKING_SNAPSHOT : "生成排名快照"
     
+    TASK_TEMPLATE {
+        bigint id PK
+        varchar name
+        varchar task_type
+        json config_schema
+        json logic_definition
+        datetime created_at
+    }
+    
+    REWARD_TEMPLATE {
+        bigint id PK
+        varchar name
+        varchar reward_type
+        json config_schema
+        json logic_definition
+        datetime created_at
+    }
+    
+    AUDIENCE_TEMPLATE {
+        bigint id PK
+        varchar name
+        json rule_definition
+        int estimated_count
+        datetime created_at
+    }
+    
     ACTIVITY_TEMPLATE {
         bigint id PK
         varchar name
-        text description
-        json logic_graph_json
-        json variables_schema
-        json user_context_schema
-        varchar version
+        json base_logic_graph
+        json exposed_variables_schema
         varchar status
-        varchar created_by
         datetime created_at
-        datetime updated_at
     }
     
     ACTIVITY_INSTANCE {
         bigint id PK
         varchar name
-        bigint template_id FK
-        varchar template_version
-        json variable_values
+        bigint base_template_id FK
+        json resolved_logic_graph
         json common_meta
         varchar status
-        varchar created_by
         datetime created_at
-        datetime updated_at
     }
     
     USER_ACTIVITY_CONTEXT {
@@ -37,7 +64,6 @@ erDiagram
         varchar user_id UK
         json context_data
         int version
-        datetime created_at
         datetime updated_at
     }
     
@@ -48,9 +74,7 @@ erDiagram
         varchar user_id IDX
         varchar reward_type
         decimal reward_amount
-        varchar reward_item_id
         varchar status
-        varchar trigger_event_id
         datetime created_at
     }
     
@@ -60,5 +84,4 @@ erDiagram
         varchar period UK
         json ranking_data
         datetime snapshot_time
-        varchar status
     }

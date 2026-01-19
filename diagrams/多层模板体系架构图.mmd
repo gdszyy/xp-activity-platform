@@ -1,0 +1,33 @@
+graph TB
+    subgraph AtomicLayer[原子模板层 Atomic Templates]
+        TaskLib[任务模板库<br/>Task Templates]
+        RewardLib[奖励模板库<br/>Reward Templates]
+        AudienceLib[人群模板库<br/>Audience Templates]
+    end
+    
+    subgraph ActivityTemplateLayer[活动模板层 Activity Template]
+        ActivityTemplate[活动模板<br/>玩法框架<br/>base_logic_graph]
+    end
+    
+    subgraph ActivityInstanceLayer[活动实例层 Activity Instance]
+        ActivityInstance[活动实例<br/>可直接执行<br/>resolved_logic_graph]
+    end
+    
+    TaskLib -.组合.-> ActivityTemplate
+    RewardLib -.组合.-> ActivityTemplate
+    AudienceLib -.引用.-> ActivityTemplate
+    
+    ActivityTemplate -.基于.-> ActivityInstance
+    TaskLib -.增删.-> ActivityInstance
+    RewardLib -.增删.-> ActivityInstance
+    AudienceLib -.调整.-> ActivityInstance
+    
+    style AtomicLayer fill:#E8F4F8,stroke:#0077B6,stroke-width:3px
+    style ActivityTemplateLayer fill:#FFE5B4,stroke:#D97706,stroke-width:3px
+    style ActivityInstanceLayer fill:#D1FAE5,stroke:#059669,stroke-width:3px
+    
+    style TaskLib fill:#B8E0D2,stroke:#2C7A7B,stroke-width:2px
+    style RewardLib fill:#FED7AA,stroke:#EA580C,stroke-width:2px
+    style AudienceLib fill:#DBEAFE,stroke:#2563EB,stroke-width:2px
+    style ActivityTemplate fill:#FFD700,stroke:#D97706,stroke-width:2px
+    style ActivityInstance fill:#90EE90,stroke:#059669,stroke-width:2px

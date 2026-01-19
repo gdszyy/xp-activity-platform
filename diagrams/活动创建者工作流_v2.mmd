@@ -1,0 +1,69 @@
+flowchart TD
+    Start([一线运营登录]) --> ActivityList[活动列表页]
+    
+    ActivityList --> |创建活动| StartWizard[启动活动组合配置向导]
+    
+    StartWizard --> Step1[步骤1: 选择起点]
+    
+    Step1 --> ChooseBase{选择基础}
+    ChooseBase --> |选择活动模板| LoadTemplate[加载模板框架]
+    ChooseBase --> |从零开始| EmptyCanvas[空白画布]
+    
+    LoadTemplate --> Step2[步骤2: 组合与编排]
+    EmptyCanvas --> Step2
+    
+    Step2 --> VisualConfig[可视化配置界面]
+    
+    VisualConfig --> DragTask[从任务库拖拽任务模板]
+    DragTask --> FillTaskParams[填充任务参数]
+    
+    FillTaskParams --> DragReward[从奖励库拖拽奖励模板]
+    DragReward --> FillRewardParams[填充奖励参数]
+    
+    FillRewardParams --> LinkReward[关联任务与奖励]
+    
+    LinkReward --> MoreTasks{需要更多任务?}
+    MoreTasks --> |是| DragTask
+    MoreTasks --> |否| DeleteNode{需要删除节点?}
+    
+    DeleteNode --> |是| RemoveNode[删除不需要的任务/奖励]
+    DeleteNode --> |否| Step3
+    
+    RemoveNode --> Step3[步骤3: 配置通用信息]
+    
+    Step3 --> SetTime[设置活动起止时间]
+    SetTime --> SetBudget[设置总预算]
+    SetBudget --> SelectAudience[选择目标人群]
+    
+    SelectAudience --> Step4[步骤4: 预览与发布]
+    
+    Step4 --> Preview{需要预览?}
+    Preview --> |是| SandboxPreview[沙盒预览]
+    Preview --> |否| Validate
+    
+    SandboxPreview --> Validate[配置校验]
+    
+    Validate --> ValidationPass{校验通过?}
+    ValidationPass --> |否| ShowError[显示错误信息]
+    ShowError --> Step2
+    
+    ValidationPass --> |是| GenerateSnapshot[生成配置快照<br/>resolved_logic_graph]
+    
+    GenerateSnapshot --> PublishOption{发布选项}
+    PublishOption --> |立即上线| PublishNow[立即发布]
+    PublishOption --> |灰度发布| GrayPublish[灰度发布]
+    PublishOption --> |保存草稿| SaveDraft[保存为草稿]
+    
+    PublishNow --> ActivityList
+    GrayPublish --> ActivityList
+    SaveDraft --> ActivityList
+    
+    ActivityList --> End([完成])
+    
+    style Start fill:#4CAF50,stroke:#2E7D32,stroke-width:3px,color:#fff
+    style End fill:#4CAF50,stroke:#2E7D32,stroke-width:3px,color:#fff
+    style Step2 fill:#2196F3,stroke:#1565C0,stroke-width:2px,color:#fff
+    style VisualConfig fill:#FF9800,stroke:#E65100,stroke-width:2px,color:#fff
+    style GenerateSnapshot fill:#9C27B0,stroke:#6A1B9A,stroke-width:2px,color:#fff
+    style PublishNow fill:#FF5722,stroke:#D84315,stroke-width:2px,color:#fff
+    style ShowError fill:#F44336,stroke:#C62828,stroke-width:2px,color:#fff
